@@ -7,6 +7,7 @@ import 'package:flutter_application_222/shared/components/materials.dart';
 import 'package:flutter_application_222/shared/style/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+//add post screen
 class AddPostScreen extends StatelessWidget {
   const AddPostScreen({super.key});
 
