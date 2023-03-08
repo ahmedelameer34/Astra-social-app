@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "838536757783",
+    "project_id": "astra-e9488",
+    "storage_bucket": "astra-e9488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838536757783:android:14207295afec5221c71252",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_222"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOpVChJSkb1DYTp80kymAX8jzhn3LxDSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

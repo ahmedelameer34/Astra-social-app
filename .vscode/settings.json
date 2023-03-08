@@ -1,0 +1,23 @@
+{
+    "workbench.activityBar.iconClickBehavior": "toggle",
+    "breadcrumbs.icons": true,
+    "breadcrumbs.showConstructors": true,
+    "workbench.editor.labelFormat": "default",
+    "workbench.editor.untitled.labelFormat": "content",
+    "zenMode.fullScreen": true,
+    "zenMode.hideLineNumbers": true,
+    "window.autoDetectColorScheme": false,
+    "window.closeWhenEmpty": false,
+    "window.commandCenter": false,
+    "outline.problems.badges": true,
+    "outline.problems.colors": true,
+    "outline.showBooleans": true,
+    "search.actionsPosition": "right",
+    "search.decorations.badges": true,
+    "search.decorations.colors": true,
+    "debug.console.fontSize": 14,
+    "debug.enableStatusBarColor": false,
+    "debug.focusEditorOnBreak": true,
+    "debug.disassemblyView.showSourceCode": true,
+    "debug.terminal.clearBeforeReusing": true
+}
