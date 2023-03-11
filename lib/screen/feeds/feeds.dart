@@ -4,6 +4,7 @@ import 'package:flutter_application_222/models/post_model.dart';
 import 'package:flutter_application_222/screen/add_post/add_post_screen.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
+
 import 'package:flutter_application_222/shared/components/function.dart';
 import 'package:flutter_application_222/shared/icons_broken.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +64,10 @@ class FeedsScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.image)),
+                              onPressed: () {
+                                navigateTo(context, AddPostScreen());
+                              },
+                              icon: Icon(Icons.image)),
                         )
                       ],
                     ),
@@ -255,8 +259,8 @@ class FeedsScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundImage:
-                              NetworkImage('${model.profileImage}'),
+                          backgroundImage: NetworkImage(
+                              HomeCubit.get(context).model.profileImage),
                         ),
                         SizedBox(
                           width: 10,
