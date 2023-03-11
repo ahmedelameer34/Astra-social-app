@@ -8,10 +8,12 @@ import 'package:flutter_application_222/shared/constant/constant.dart';
 import 'package:flutter_application_222/shared/style/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc_observer.dart';
 import 'firebase_options.dart';
 import 'helper/cashe_helper.dart';
 
 void main() async {
+  Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
