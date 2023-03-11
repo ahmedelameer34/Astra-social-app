@@ -41,7 +41,7 @@ class AddPostScreen extends StatelessWidget {
               )
             ],
           ),
-          body: Column(children: [
+          body: ListView(children: [
             if (state is PostLoadingState) LinearProgressIndicator(),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -49,8 +49,8 @@ class AddPostScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 25,
-                    backgroundImage: NetworkImage(
-                        'https://img.freepik.com/free-photo/smiley-little-boy-isolated-pink_23-2148984798.jpg?w=1380&t=st=1676934299~exp=1676934899~hmac=17d2a654ee9c5a0c45bdc45bf41f0bbb23b4937005c7cc8b3f10c090db775e76'),
+                    backgroundImage:
+                        NetworkImage(HomeCubit.get(context).model.profileImage),
                   ),
                   SizedBox(
                     width: 15,
@@ -60,7 +60,7 @@ class AddPostScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                         Row(children: [
-                          Text('Ahmed El Amir',
+                          Text(HomeCubit.get(context).model.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -100,7 +100,7 @@ class AddPostScreen extends StatelessWidget {
                   ),
                   IconButton(
                       onPressed: () {
-                        HomeCubit.get(context).removeCoverImage();
+                        HomeCubit.get(context).removePostImage();
                       },
                       icon: Icon(
                         Icons.close,

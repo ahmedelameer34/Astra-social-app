@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
                         child: CircleAvatar(
                             radius: 60,
                             backgroundImage:
-                                NetworkImage('${userModel.profileImage}')),
+                                NetworkImage(userModel.profileImage)),
                       ),
                     )
                   ],
@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('${userModel.name}',
+                  Text(userModel.name,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!

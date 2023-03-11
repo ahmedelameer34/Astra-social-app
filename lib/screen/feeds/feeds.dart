@@ -1,77 +1,100 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_222/models/post_model.dart';
 import 'package:flutter_application_222/screen/add_post/add_post_screen.dart';
+import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
+import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
 import 'package:flutter_application_222/shared/components/function.dart';
 import 'package:flutter_application_222/shared/icons_broken.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedsScreen extends StatelessWidget {
   const FeedsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Container(
-            height: 60,
-            child: Card(
-              elevation: 4,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: CircleAvatar(
-                          radius: 18,
-                          backgroundImage: NetworkImage(
-                              'https://img.freepik.com/free-photo/smiley-little-boy-isolated-pink_23-2148984798.jpg?w=1380&t=st=1676934299~exp=1676934899~hmac=17d2a654ee9c5a0c45bdc45bf41f0bbb23b4937005c7cc8b3f10c090db775e76'),
+    return BlocConsumer<HomeCubit, HomeStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var cubit = HomeCubit.get(context);
+
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  height: 60,
+                  child: Card(
+                    elevation: 4,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: CircleAvatar(
+                                radius: 18,
+                                backgroundImage:
+                                    NetworkImage(cubit.model.profileImage),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          child: Card(
+                              elevation: 1,
+                              child: InkWell(
+                                  onTap: () {
+                                    navigateTo(context, AddPostScreen());
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text("What's on your mind ?",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                height: 1.4, fontSize: 18)),
+                                  ))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: IconButton(
+                              onPressed: () {}, icon: Icon(Icons.image)),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Card(
-                        elevation: 1,
-                        child: InkWell(
-                            onTap: () {
-                              navigateTo(context, AddPostScreen());
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text("What's on your mind ?",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(height: 1.4, fontSize: 18)),
-                            ))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child:
-                        IconButton(onPressed: () {}, icon: Icon(Icons.image)),
-                  )
-                ],
-              ),
+                ),
+                ConditionalBuilder(
+                    fallback: (context) {
+                      return Center(
+                        child: Text('no new post to see'),
+                      );
+                    },
+                    condition: cubit.posts.isNotEmpty,
+                    builder: (context) {
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: 10,
+                        ),
+                        itemBuilder: (context, index) =>
+                            buildPostItem(context, cubit.posts[index]),
+                        itemCount: cubit.posts.length,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                      );
+                    })
+              ],
             ),
-          ),
-          ListView.separated(
-            separatorBuilder: (context, index) => SizedBox(
-              height: 10,
-            ),
-            itemBuilder: (context, index) => buildPostItem(context),
-            itemCount: 10,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-          )
-        ],
-      ),
-    );
+          );
+        });
   }
 
-  Widget buildPostItem(context) {
+  Widget buildPostItem(context, PostModel model) {
     return Card(
       margin: EdgeInsets.all(8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -83,8 +106,7 @@ class FeedsScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundImage: NetworkImage(
-                    'https://img.freepik.com/free-photo/smiley-little-boy-isolated-pink_23-2148984798.jpg?w=1380&t=st=1676934299~exp=1676934899~hmac=17d2a654ee9c5a0c45bdc45bf41f0bbb23b4937005c7cc8b3f10c090db775e76'),
+                backgroundImage: NetworkImage(model.profileImage),
               ),
               SizedBox(
                 width: 20,
@@ -95,7 +117,7 @@ class FeedsScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text('Ahmed El Amir',
+                        Text('${model.name}',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge!
@@ -110,7 +132,7 @@ class FeedsScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text('January 21, 2023 at 5 pm',
+                    Text(model.dateTime,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall!
@@ -133,7 +155,7 @@ class FeedsScreen extends StatelessWidget {
             thickness: 1,
           ),
           Text(
-            'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Ciceros De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with',
+            '${model.postText}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           Padding(
@@ -164,16 +186,16 @@ class FeedsScreen extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-              width: double.infinity,
-              height: 140,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-photo/close-up-young-successful-man-smiling-camera-standing-casual-outfit-against-blue-background_1258-66609.jpg?w=1380&t=st=1676932839~exp=1676933439~hmac=ccf22243ac3c46f53b0d142e9fdbdbcc79352e1861bdeeb1aa8a0f68b315edf3'),
-                  fit: BoxFit.cover,
-                ),
-              )),
+          if (model.postImage != '')
+            Container(
+                width: double.infinity,
+                height: 140,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage('${model.postImage}'),
+                    fit: BoxFit.cover,
+                  ),
+                )),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: Row(
@@ -191,7 +213,7 @@ class FeedsScreen extends StatelessWidget {
                           width: 7,
                         ),
                         Text(
-                          '1250',
+                          '0',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -212,7 +234,7 @@ class FeedsScreen extends StatelessWidget {
                           width: 7,
                         ),
                         Text(
-                          ' 30 Comment',
+                          ' 0 Comment',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -233,8 +255,8 @@ class FeedsScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 18,
-                          backgroundImage: NetworkImage(
-                              'https://img.freepik.com/free-photo/smiley-little-boy-isolated-pink_23-2148984798.jpg?w=1380&t=st=1676934299~exp=1676934899~hmac=17d2a654ee9c5a0c45bdc45bf41f0bbb23b4937005c7cc8b3f10c090db775e76'),
+                          backgroundImage:
+                              NetworkImage('${model.profileImage}'),
                         ),
                         SizedBox(
                           width: 10,

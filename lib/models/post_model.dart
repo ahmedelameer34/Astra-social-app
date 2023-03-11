@@ -2,11 +2,10 @@ class PostModel {
   String name = '';
   String uId = '';
   String dateTime = '';
-  String? postText;
-  String profileImage =
-      'https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png';
+  String postText = '';
+  String profileImage = '';
 
-  String? postImage;
+  String postImage = '';
 
   PostModel.ec();
   PostModel({

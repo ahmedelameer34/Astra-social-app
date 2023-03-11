@@ -52,3 +52,13 @@ class GetPostImageSucceseState extends HomeStates {}
 class GetPostImageErrorState extends HomeStates {}
 
 class RemovePostImageState extends HomeStates {}
+
+// get posts states
+class HomeGetPostsLoadingState extends HomeStates {}
+
+class HomeGetPostsSuccessState extends HomeStates {}
+
+class HomeGetPostsErrorState extends HomeStates {
+  final String error;
+  HomeGetPostsErrorState(this.error);
+}
