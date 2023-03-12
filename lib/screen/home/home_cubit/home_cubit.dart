@@ -129,11 +129,9 @@ class HomeCubit extends Cubit<HomeStates> {
         updateUserInfo(name: name, bio: bio, phone: phone, cover: value);
         emit(UploadCoverImageSucceseState());
       }).catchError((error) {
-        print(error);
         emit(UploadCoverImageErrorState());
       });
     }).catchError((error) {
-      print(error);
       emit(UploadCoverImageErrorState());
     });
   }

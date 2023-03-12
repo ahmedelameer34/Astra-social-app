@@ -62,3 +62,7 @@ class HomeGetPostsErrorState extends HomeStates {
   final String error;
   HomeGetPostsErrorState(this.error);
 }
+
+class HomeLikePostsSuccessState extends HomeStates {}
+
+class HomeLikePostsErrorState extends HomeStates {}

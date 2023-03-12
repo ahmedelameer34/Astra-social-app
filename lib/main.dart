@@ -39,14 +39,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => HomeCubit()
-              ..getUserData()
-              ..getPosts(),
-          )
-        ],
+    return BlocProvider(
+        create: (context) => HomeCubit()
+          ..getUserData()
+          ..getPosts(),
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
