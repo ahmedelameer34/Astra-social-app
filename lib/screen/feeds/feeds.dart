@@ -86,7 +86,7 @@ class FeedsScreen extends StatelessWidget {
                           height: 10,
                         ),
                         itemBuilder: (context, index) =>
-                            buildPostItem(context, cubit.posts[index]),
+                            buildPostItem(context, cubit.posts[index], index),
                         itemCount: cubit.posts.length,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -98,14 +98,14 @@ class FeedsScreen extends StatelessWidget {
         });
   }
 
-  Widget buildPostItem(context, PostModel model) {
+  Widget buildPostItem(context, PostModel model, index) {
     return Card(
       margin: EdgeInsets.all(8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: [
               CircleAvatar(
@@ -217,7 +217,7 @@ class FeedsScreen extends StatelessWidget {
                           width: 7,
                         ),
                         Text(
-                          '0',
+                          HomeCubit.get(context).likesNum[index].toString(),
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -296,7 +296,10 @@ class FeedsScreen extends StatelessWidget {
               ),
               SizedBox(width: 10),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  HomeCubit.get(context)
+                      .likePost(HomeCubit.get(context).postIds[index]);
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

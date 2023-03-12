@@ -63,6 +63,30 @@ class HomeGetPostsErrorState extends HomeStates {
   HomeGetPostsErrorState(this.error);
 }
 
-class HomeLikePostsSuccessState extends HomeStates {}
+//like post states
+class HomeLikePostSuccessState extends HomeStates {}
 
-class HomeLikePostsErrorState extends HomeStates {}
+class HomeLikePostErrorState extends HomeStates {
+  final String error;
+  HomeLikePostErrorState(this.error);
+}
+
+//GetLikesNumber
+class LodingGetLikesNumberState extends HomeStates {}
+
+class GetLikesNumberSuccessState extends HomeStates {}
+
+class GetLikesErrorState extends HomeStates {}
+
+class LodingGetCommentsState extends HomeStates {}
+
+class GetCommentsSuccessState extends HomeStates {}
+
+class GetCommentsErrorState extends HomeStates {}
+
+class HomeAddCommentSuccessState extends HomeStates {}
+
+class HomeAddCommentErrorState extends HomeStates {
+  final String error;
+  HomeAddCommentErrorState(this.error);
+}
