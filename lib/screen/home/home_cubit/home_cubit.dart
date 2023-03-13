@@ -229,6 +229,7 @@ class HomeCubit extends Cubit<HomeStates> {
           likesNum.add(value.docs.length);
           posts.add(PostModel.fromJson(element.data()));
           postIds.add(element.id);
+          getOnePostLikesNumber(element.id);
           emit(HomeGetPostsSuccessState());
         }).catchError((error) {
           emit(HomeGetPostsErrorState(error.toString()));
