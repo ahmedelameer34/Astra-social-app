@@ -90,3 +90,13 @@ class HomeAddCommentErrorState extends HomeStates {
   final String error;
   HomeAddCommentErrorState(this.error);
 }
+
+//get all users data
+class GetAllUsresLoadingState extends HomeStates {}
+
+class GetAllUsresSuccessState extends HomeStates {}
+
+class GetAllUsresErrorState extends HomeStates {
+  final String error;
+  GetAllUsresErrorState(this.error);
+}

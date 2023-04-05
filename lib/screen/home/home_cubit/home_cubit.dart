@@ -52,6 +52,8 @@ class HomeCubit extends Cubit<HomeStates> {
     const SettingsScreen()
   ];
   void changeBottomNav(int index) {
+    if (index == 1) getAlluser();
+
     currentIndex = index;
     emit(ChangeBottomNavState());
   }
@@ -308,5 +310,22 @@ class HomeCubit extends Cubit<HomeStates> {
     }).catchError((error) {
       emit(HomeAddCommentErrorState(error));
     });
+  }
+
+  //get all users
+  List<UserModel> users = [];
+  void getAlluser() {
+    emit(GetAllUsresLoadingState());
+    if (users.isEmpty)
+      FirebaseFirestore.instance.collection('users').get().then((value) {
+        for (var element in value.docs) {
+          if (element.data()['uId'] != model.uId)
+            users.add(UserModel.fromJson(element.data()));
+
+          emit(GetAllUsresSuccessState());
+        }
+      }).catchError((error) {
+        emit(GetAllUsresErrorState(error.toString()));
+      });
   }
 }

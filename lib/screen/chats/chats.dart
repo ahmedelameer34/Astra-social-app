@@ -1,10 +1,56 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_222/models/user_model.dart';
+import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
+import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Text('chatsScreen');
+    return BlocConsumer<HomeCubit, HomeStates>(
+      builder: (BuildContext context, state) {
+        return ConditionalBuilder(
+          builder: (BuildContext context) {
+            return ListView.separated(
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    buildChatItem(context, HomeCubit.get(context).users[index]),
+                separatorBuilder: (context, index) => Divider(
+                      thickness: 1,
+                    ),
+                itemCount: HomeCubit.get(context).users.length);
+          },
+          condition: HomeCubit.get(context).users.isNotEmpty,
+          fallback: (BuildContext context) {
+            return Center(child: CircularProgressIndicator());
+          },
+        );
+      },
+      listener: (context, state) {},
+    );
   }
+
+  Widget buildChatItem(context, UserModel model) => InkWell(
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundImage: NetworkImage(model.profileImage),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(model.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(height: 1.4)),
+          ]),
+        ),
+      );
 }
