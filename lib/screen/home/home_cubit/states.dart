@@ -100,3 +100,13 @@ class GetAllUsresErrorState extends HomeStates {
   final String error;
   GetAllUsresErrorState(this.error);
 }
+
+//chats
+class SendMessageSuccessState extends HomeStates {}
+
+class SendMessageErrorState extends HomeStates {
+  final String error;
+  SendMessageErrorState(this.error);
+}
+
+class GetMessageSuccessState extends HomeStates {}

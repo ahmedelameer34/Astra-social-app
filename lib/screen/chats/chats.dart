@@ -1,8 +1,10 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/models/user_model.dart';
+import 'package:flutter_application_222/screen/chats/chat_screen.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
+import 'package:flutter_application_222/shared/components/function.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsScreen extends StatelessWidget {
@@ -34,7 +36,13 @@ class ChatsScreen extends StatelessWidget {
   }
 
   Widget buildChatItem(context, UserModel model) => InkWell(
-        onTap: () {},
+        onTap: () {
+          navigateTo(
+              context,
+              ChatDetails(
+                model: model,
+              ));
+        },
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(children: [
@@ -45,11 +53,15 @@ class ChatsScreen extends StatelessWidget {
             SizedBox(
               width: 20,
             ),
-            Text(model.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(height: 1.4)),
+            Container(
+              width: 250,
+              child: Text(model.name,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        height: 1.4,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+            ),
           ]),
         ),
       );

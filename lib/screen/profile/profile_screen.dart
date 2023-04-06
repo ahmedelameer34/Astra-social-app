@@ -63,23 +63,31 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(userModel.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(height: 1.4)),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.blue,
-                    size: 16,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(userModel.name,
+                          maxLines: 1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  height: 1.4,
+                                  overflow: TextOverflow.ellipsis)),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.check_circle,
+                      color: Colors.blue,
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -88,8 +96,12 @@ class ProfileScreen extends StatelessWidget {
                   height: 100,
                   width: double.infinity,
                   child: Text(
-                    '${userModel.bio}',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    userModel.bio,
+                    maxLines: 3,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(overflow: TextOverflow.ellipsis),
                   ),
                 ),
               ),

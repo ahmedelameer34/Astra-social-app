@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:flutter_application_222/models/message_model.dart';
 import 'package:flutter_application_222/models/post_model.dart';
 
 import 'package:flutter_application_222/screen/chats/chats.dart';
@@ -225,8 +226,12 @@ class HomeCubit extends Cubit<HomeStates> {
   List<String> postIds = [];
   getPosts() {
     emit(HomeGetPostsLoadingState());
-    FirebaseFirestore.instance.collection('posts').get().then((value) {
-      for (var element in value.docs) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      for (var element in event.docs) {
         element.reference.collection('likes').get().then((value) {
           likesNum.add(value.docs.length);
           posts.add(PostModel.fromJson(element.data()));
@@ -237,21 +242,19 @@ class HomeCubit extends Cubit<HomeStates> {
           emit(HomeGetPostsErrorState(error.toString()));
         });
       }
-    }).catchError((error) {
-      emit(HomeGetPostsErrorState(error.toString()));
     });
   }
 
   Future<int> getOnePostLikesNumber(postId) async {
     emit(LodingGetLikesNumberState());
     int number = 0;
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection("posts")
         .doc(postId)
         .collection("likes")
-        .get()
-        .then((value) {
-      number = value.docs.length;
+        .snapshots()
+        .listen((event) {
+      number = event.docs.length;
       emit(GetLikesNumberSuccessState());
     });
     return number;
@@ -327,5 +330,62 @@ class HomeCubit extends Cubit<HomeStates> {
       }).catchError((error) {
         emit(GetAllUsresErrorState(error.toString()));
       });
+  }
+
+// Send and get messages
+  void sendMessage(
+      {required String receiverId,
+      required String dateTime,
+      required String messageText}) {
+    MessageModel messageModel = MessageModel(
+        dateTime: dateTime,
+        senderId: model.uId,
+        receiverId: receiverId,
+        messageText: messageText);
+    //set sender chats
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState(error.toString()));
+    });
+    //set receiver chats
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(model.uId)
+        .collection('messages')
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState(error.toString()));
+    });
+  }
+
+  List<MessageModel> messages = [];
+  void getMessages({required String receiverId}) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(model.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      event.docs.forEach((element) {
+        messages.add(MessageModel.fromJson(element.data()));
+        emit(GetMessageSuccessState());
+      });
+    });
   }
 }
