@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
 import 'package:flutter_application_222/screen/home/home_screen.dart';
@@ -18,10 +19,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  var token = FirebaseMessaging.instance.getToken();
+  FirebaseMessaging.onMessage.listen((event) {});
+  FirebaseMessaging.onMessageOpenedApp.listen((event) {});
   await CasheHelper.init();
   Widget? widget;
   uId = CasheHelper.getString(key: 'uId');
-  print(uId);
+
   if (uId != null) {
     widget = HomeScreen();
   } else {
