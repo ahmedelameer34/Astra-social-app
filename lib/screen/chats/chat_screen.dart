@@ -1,4 +1,3 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/models/message_model.dart';
 
@@ -43,74 +42,60 @@ class ChatDetails extends StatelessWidget {
                 ],
               ),
             ),
-            body: ConditionalBuilder(
-              builder: (context) {
-                return Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            var message =
-                                HomeCubit.get(context).messages[index];
-                            if (HomeCubit.get(context).model.uId ==
-                                message.senderId) {
-                              return buildMyMessage(message);
-                            } else {
-                              return buildMessage(message);
-                            }
-                          },
-                          itemCount: HomeCubit.get(context).messages.length,
-                          separatorBuilder: (context, index) =>
-                              SizedBox(height: 15),
-                        ),
-                      ),
-                      Container(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 1, color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: TextFormField(
-                              controller: messageController,
-                              decoration:
-                                  InputDecoration(border: InputBorder.none),
-                            )),
-                            Container(
-                              height: 50,
-                              width: 50,
-                              child: MaterialButton(
-                                onPressed: () {
-                                  HomeCubit.get(context).sendMessage(
-                                      receiverId: model!.uId,
-                                      dateTime: DateTime.now().toString(),
-                                      messageText: messageController.text);
-                                },
-                                child: Icon(
-                                  IconBroken.Send,
-                                  size: 18,
-                                  color: Colors.white,
-                                ),
-                                color: Colors.blue[400],
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+            body: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(children: [
+                  Expanded(
+                    child: ListView.separated(
+                      itemBuilder: (context, index) {
+                        var message = HomeCubit.get(context).messages[index];
+                        if (HomeCubit.get(context).model.uId ==
+                            message.senderId) {
+                          return buildMyMessage(message);
+                        } else {
+                          return buildMessage(message);
+                        }
+                      },
+                      itemCount: HomeCubit.get(context).messages.length,
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 15),
+                    ),
                   ),
-                );
-              },
-              fallback: (BuildContext context) {
-                return Center(child: CircularProgressIndicator());
-              },
-              condition: HomeCubit.get(context).messages.isNotEmpty,
-            ),
+                  Container(
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.blueGrey),
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: TextFormField(
+                          controller: messageController,
+                          decoration: InputDecoration(border: InputBorder.none),
+                        )),
+                        Container(
+                          height: 50,
+                          width: 50,
+                          child: MaterialButton(
+                            onPressed: () {
+                              HomeCubit.get(context).sendMessage(
+                                  receiverId: model!.uId,
+                                  dateTime: DateTime.now().toString(),
+                                  messageText: messageController.text);
+                            },
+                            child: Icon(
+                              IconBroken.Send,
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                            color: Colors.blue[400],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ])),
           );
         },
         listener: (context, state) {
