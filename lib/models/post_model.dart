@@ -32,7 +32,7 @@ class PostModel {
       'profileImage': profileImage,
       'postText': postText,
       'postImage': postImage,
-      'dateTime': dateTime
+      'dateTime': dateTime,
     };
   }
 }

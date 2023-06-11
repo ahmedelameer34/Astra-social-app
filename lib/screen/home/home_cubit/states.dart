@@ -1,5 +1,6 @@
 abstract class HomeStates {}
 
+//feed states
 class HomeInitialState extends HomeStates {}
 
 class HomeLoadingState extends HomeStates {}
@@ -15,9 +16,18 @@ class HomeGetUserErrorState extends HomeStates {
 
 class ChangeBottomNavState extends HomeStates {}
 
+// change profile image states
 class ChangeProfileImageSucceseState extends HomeStates {}
 
 class ChangeProfileImageErrorState extends HomeStates {}
+
+class UploadPofileImageSucceseState extends HomeStates {}
+
+class UploadPofileImageLoadingState extends HomeStates {}
+
+class UploadPofileImageErrorState extends HomeStates {}
+
+// change cover image states
 
 class ChangeCoverImageSucceseState extends HomeStates {}
 
@@ -29,18 +39,14 @@ class UploadCoverImageErrorState extends HomeStates {}
 
 class UploadCoverImageLoadingState extends HomeStates {}
 
+// update profile  states
+class UpdatePofileLoadingState extends HomeStates {}
+
 class UpdatePofileSucceseState extends HomeStates {}
-
-class UploadPofileImageSucceseState extends HomeStates {}
-
-class UploadPofileImageLoadingState extends HomeStates {}
-
-class UploadPofileImageErrorState extends HomeStates {}
 
 class UpdatePofileErrorState extends HomeStates {}
 
-class UpdatePofileLoadingState extends HomeStates {}
-
+// post states
 class PostSucceseState extends HomeStates {}
 
 class PostErrorState extends HomeStates {}
@@ -78,18 +84,27 @@ class GetLikesNumberSuccessState extends HomeStates {}
 
 class GetLikesErrorState extends HomeStates {}
 
-class LodingGetCommentsState extends HomeStates {}
-
-class GetCommentsSuccessState extends HomeStates {}
-
-class GetCommentsErrorState extends HomeStates {}
-
+//add comment states
 class HomeAddCommentSuccessState extends HomeStates {}
 
 class HomeAddCommentErrorState extends HomeStates {
   final String error;
   HomeAddCommentErrorState(this.error);
 }
+
+//get comment states
+class LodingGetCommentsState extends HomeStates {}
+
+class GetCommentsSuccessState extends HomeStates {}
+
+class GetCommentsErrorState extends HomeStates {}
+
+//delete comment states
+class LoadingDeleteCommentsState extends HomeStates {}
+
+class DeleteCommentsSuccessState extends HomeStates {}
+
+class DeleteCommentsErrorState extends HomeStates {}
 
 //get all users data
 class GetAllUsresLoadingState extends HomeStates {}

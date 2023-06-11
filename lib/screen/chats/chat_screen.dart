@@ -83,6 +83,7 @@ class ChatDetails extends StatelessWidget {
                             )),
                             Container(
                               height: 50,
+                              width: 50,
                               child: MaterialButton(
                                 onPressed: () {
                                   HomeCubit.get(context).sendMessage(

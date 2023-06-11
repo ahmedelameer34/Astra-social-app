@@ -46,7 +46,7 @@ class HomeCubit extends Cubit<HomeStates> {
     'Settings'
   ];
   List<Widget> screens = [
-    const FeedsScreen(),
+    FeedsScreen(),
     const ChatsScreen(),
     const ProfileScreen(),
     const UsersScreen(),
@@ -231,15 +231,30 @@ class HomeCubit extends Cubit<HomeStates> {
         .orderBy('dateTime')
         .snapshots()
         .listen((event) {
+      posts = [];
+      likesNum = [];
+      commentsNum = [];
+      postIds = [];
+
       for (var element in event.docs) {
         element.reference.collection('likes').get().then((value) {
           likesNum.add(value.docs.length);
           posts.add(PostModel.fromJson(element.data()));
           postIds.add(element.id);
+
           getOnePostLikesNumber(element.id);
-          emit(HomeGetPostsSuccessState());
-        }).catchError((error) {
-          emit(HomeGetPostsErrorState(error.toString()));
+
+          //
+        });
+        element.reference.collection('comments').get().then(
+          (value) {
+            commentsNum.add(value.docs.length);
+
+            getOnePostCommentsNumber(element.id);
+            emit(HomeGetPostsSuccessState());
+          },
+        ).catchError((e) {
+          emit(HomeGetPostsErrorState(e));
         });
       }
     });
@@ -263,13 +278,16 @@ class HomeCubit extends Cubit<HomeStates> {
   Future<int> getOnePostCommentsNumber(postId) async {
     emit(LodingGetCommentsState());
     int number = 0;
-    await FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
-        .collection("comments")
-        .get()
-        .then((value) {
-      number = value.docs.length;
+        .collection('comments')
+        .snapshots()
+        .listen((event) {
+      comments = [];
+      commentId = [];
+
+      number = event.docs.length;
       emit(GetCommentsSuccessState());
     });
     return number;
@@ -288,14 +306,14 @@ class HomeCubit extends Cubit<HomeStates> {
     });
   }
 
-  addComment(
-      {required postId,
-      required name,
-      required uId,
-      required image,
-      required String text,
-      i}) {
-    commentsNum[i] = commentsNum[i] + 1;
+  addComment({
+    required String postId,
+    required name,
+    required uId,
+    required image,
+    required String text,
+  }) {
+    commentsNum[comments.length] = commentsNum[comments.length] + 1;
     CommentModel comment = CommentModel(
       profileImage: image,
       dateTime: DateTime.now().toString(),
@@ -312,6 +330,46 @@ class HomeCubit extends Cubit<HomeStates> {
       emit((HomeAddCommentSuccessState()));
     }).catchError((error) {
       emit(HomeAddCommentErrorState(error));
+    });
+  }
+
+  List<CommentModel> comments = [];
+  List<String> commentId = [];
+  getComments(postId) {
+    emit(LodingGetCommentsState());
+
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      comments = [];
+      commentId = [];
+      event.docs.forEach((element) {
+        comments.add(CommentModel.fromJson(element.data()));
+        commentId.add(element.id);
+      });
+      emit(GetCommentsSuccessState());
+    });
+    print("comments.length is ${comments.length}");
+  }
+
+  deleteComment(postId, commentId, i) {
+    emit(LoadingDeleteCommentsState());
+    commentsNum[i] = commentsNum[i] - 1;
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(postId)
+        .collection("comments")
+        .doc(commentId)
+        .delete()
+        .then((value) {
+      emit(DeleteCommentsSuccessState());
+    }).catchError((onError) {
+      print("error feom deleteComment ${onError.toString()}");
+      emit(DeleteCommentsErrorState());
     });
   }
 

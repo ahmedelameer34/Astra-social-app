@@ -55,12 +55,14 @@ class ChatsScreen extends StatelessWidget {
             ),
             Container(
               width: 250,
-              child: Text(model.name,
-                  maxLines: 1,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        height: 1.4,
-                        overflow: TextOverflow.ellipsis,
-                      )),
+              child: Expanded(
+                child: Text(model.name,
+                    maxLines: 1,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          height: 1.4,
+                          overflow: TextOverflow.ellipsis,
+                        )),
+              ),
             ),
           ]),
         ),

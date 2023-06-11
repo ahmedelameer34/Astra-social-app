@@ -10,97 +10,95 @@ import 'package:flutter_application_222/shared/icons_broken.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedsScreen extends StatelessWidget {
-  const FeedsScreen({super.key});
-
+  FeedsScreen({super.key});
+  var commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var cubit = HomeCubit.get(context);
+    return BlocConsumer<HomeCubit, HomeStates>(listener: (context, state) {
+      if (state is HomeAddCommentSuccessState) commentController.text = '';
+    }, builder: (context, state) {
+      var cubit = HomeCubit.get(context);
 
-          return SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Container(
-                  height: 60,
-                  child: Card(
-                    elevation: 4,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundImage:
-                                    NetworkImage(cubit.model.profileImage),
-                              ),
-                            ),
+      return SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Container(
+              height: 60,
+              child: Card(
+                elevation: 4,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundImage:
+                                NetworkImage(cubit.model.profileImage),
                           ),
                         ),
-                        Expanded(
-                          child: Card(
-                              elevation: 1,
-                              child: InkWell(
-                                  onTap: () {
-                                    navigateTo(context, AddPostScreen());
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text("What's on your mind ?",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                                height: 1.4, fontSize: 18)),
-                                  ))),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: IconButton(
-                              onPressed: () {
+                      ),
+                    ),
+                    Expanded(
+                      child: Card(
+                          elevation: 1,
+                          child: InkWell(
+                              onTap: () {
                                 navigateTo(context, AddPostScreen());
                               },
-                              icon: Icon(Icons.image)),
-                        )
-                      ],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text("What's on your mind ?",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(height: 1.4, fontSize: 18)),
+                              ))),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: IconButton(
+                          onPressed: () {
+                            navigateTo(context, AddPostScreen());
+                          },
+                          icon: Icon(Icons.image)),
+                    )
+                  ],
                 ),
-                ConditionalBuilder(
-                    fallback: (context) {
-                      return Center(
-                        child: Text('no new post to see'),
-                      );
-                    },
-                    condition: cubit.posts.isNotEmpty,
-                    builder: (context) {
-                      return ListView.separated(
-                        separatorBuilder: (context, index) => SizedBox(
-                          height: 10,
-                        ),
-                        itemBuilder: (context, index) =>
-                            buildPostItem(context, cubit.posts[index], index),
-                        itemCount: cubit.posts.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                      );
-                    })
-              ],
+              ),
             ),
-          );
-        });
+            ConditionalBuilder(
+                fallback: (context) {
+                  return Center(
+                    child: Text('no new post to see'),
+                  );
+                },
+                condition: cubit.posts.isNotEmpty,
+                builder: (context) {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 10,
+                    ),
+                    itemBuilder: (context, index) =>
+                        buildPostItem(context, cubit.posts[index], index),
+                    itemCount: cubit.posts.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                  );
+                })
+          ],
+        ),
+      );
+    });
   }
 
-  Widget buildPostItem(context, PostModel model, index) {
+  Widget buildPostItem(context, PostModel model, int index) {
     return Card(
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
       child: Padding(
@@ -121,11 +119,16 @@ class FeedsScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text('${model.name}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(height: 1.4)),
+                        Expanded(
+                          child: Text(model.name,
+                              maxLines: 1,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                      height: 1.4,
+                                      overflow: TextOverflow.ellipsis)),
+                        ),
                         SizedBox(
                           width: 5,
                         ),
@@ -160,7 +163,11 @@ class FeedsScreen extends StatelessWidget {
           ),
           Text(
             '${model.postText}',
-            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 5,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(overflow: TextOverflow.ellipsis),
           ),
           Padding(
             padding: EdgeInsets.only(top: 5, bottom: 10),
@@ -238,7 +245,7 @@ class FeedsScreen extends StatelessWidget {
                           width: 7,
                         ),
                         Text(
-                          ' 0 Comment',
+                          HomeCubit.get(context).commentsNum[index].toString(),
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -252,9 +259,9 @@ class FeedsScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: InkWell(
-                  onTap: () {},
-                  child: Card(
+                child: Card(
+                  child: Container(
+                    height: 50,
                     child: Row(
                       children: [
                         CircleAvatar(
@@ -265,36 +272,67 @@ class FeedsScreen extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text('write a comment ... ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(height: 1.4)),
+                        Expanded(
+                            child: TextFormField(
+                          onFieldSubmitted: (value) {
+                            if (value != '') {
+                              HomeCubit.get(context).addComment(
+                                postId: HomeCubit.get(context).postIds[index],
+                                name: HomeCubit.get(context).model.name,
+                                uId: HomeCubit.get(context).model.uId,
+                                image:
+                                    HomeCubit.get(context).model.profileImage,
+                                text: value,
+                              );
+                            }
+                          },
+                          controller: commentController,
+                          decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  if (commentController.value.text != '') {
+                                    HomeCubit.get(context).addComment(
+                                      postId:
+                                          HomeCubit.get(context).postIds[index],
+                                      name: HomeCubit.get(context).model.name,
+                                      uId: HomeCubit.get(context).model.uId,
+                                      image: HomeCubit.get(context)
+                                          .model
+                                          .profileImage,
+                                      text: commentController.value.text,
+                                    );
+                                  }
+                                },
+                              ),
+                              hintText: 'write a comment ... ',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(height: 1.4)),
+                        )),
                       ],
                     ),
                   ),
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.share_outlined,
-                      color: Colors.green,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'Share',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Icon(
+                    Icons.share_outlined,
+                    color: Colors.green,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    'Share',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 5),
               InkWell(
                 onTap: () {
                   HomeCubit.get(context)
