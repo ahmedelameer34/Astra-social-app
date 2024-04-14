@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/screen/home/home_screen.dart';
@@ -36,13 +38,13 @@ class RegisterScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             children: [
                               Image.asset('assets/image/Ellipse 1,5.png',
                                   width: 100, height: 70),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   'ASTRA',
                                   style:
@@ -52,15 +54,15 @@ class RegisterScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Hello ,',
                           style: TextStyle(color: mainColor, fontSize: 25),
                         ),
-                        Text(
+                        const Text(
                           'Register now and meet Your friends',
                           style: TextStyle(color: mainColor, fontSize: 18),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         defTextFormField(
@@ -122,7 +124,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             label: 'Phone',
                             prefix: Icons.phone),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Column(
@@ -142,12 +144,12 @@ class RegisterScreen extends StatelessWidget {
                                   }),
                                   text: 'REGISTER',
                                   color: Colors.white),
-                              fallback: (BuildContext context) => Center(
+                              fallback: (BuildContext context) => const Center(
                                 child: CircularProgressIndicator(),
                               ),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             login(
@@ -166,9 +168,8 @@ class RegisterScreen extends StatelessWidget {
         },
         listener: (BuildContext context, state) {
           if (state is CreateUserSuccessState) {
-            navigateAndFinish(context, HomeScreen());
+            navigateAndFinish(context, const HomeScreen());
           }
-          ;
           if (state is CreateUserErrorState) {
             showToast(msg: state.error, state: toastState.ERROR);
           }

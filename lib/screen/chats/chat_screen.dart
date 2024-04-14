@@ -8,6 +8,7 @@ import 'package:flutter_application_222/shared/icons_broken.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class ChatDetails extends StatelessWidget {
   UserModel? model;
   var messageController = TextEditingController();
@@ -27,15 +28,15 @@ class ChatDetails extends StatelessWidget {
                     radius: 20,
                     backgroundImage: NetworkImage(model!.profileImage),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Container(
+                  SizedBox(
                     width: 150,
                     child: Text(
                       model!.name,
                       maxLines: 1,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 18, overflow: TextOverflow.ellipsis),
                     ),
                   )
@@ -58,7 +59,7 @@ class ChatDetails extends StatelessWidget {
                       },
                       itemCount: HomeCubit.get(context).messages.length,
                       separatorBuilder: (context, index) =>
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                     ),
                   ),
                   Container(
@@ -72,9 +73,10 @@ class ChatDetails extends StatelessWidget {
                         Expanded(
                             child: TextFormField(
                           controller: messageController,
-                          decoration: InputDecoration(border: InputBorder.none),
+                          decoration:
+                              const InputDecoration(border: InputBorder.none),
                         )),
-                        Container(
+                        SizedBox(
                           height: 50,
                           width: 50,
                           child: MaterialButton(
@@ -84,12 +86,12 @@ class ChatDetails extends StatelessWidget {
                                   dateTime: DateTime.now().toString(),
                                   messageText: messageController.text);
                             },
-                            child: Icon(
+                            color: Colors.blue[400],
+                            child: const Icon(
                               IconBroken.Send,
                               size: 18,
                               color: Colors.white,
                             ),
-                            color: Colors.blue[400],
                           ),
                         )
                       ],
@@ -111,8 +113,8 @@ class ChatDetails extends StatelessWidget {
 Widget buildMessage(MessageModel model) => Align(
       alignment: AlignmentDirectional.centerStart,
       child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: const BoxDecoration(
               color: Color.fromARGB(255, 78, 73, 73),
               borderRadius: BorderRadiusDirectional.only(
                   topEnd: Radius.circular(10),
@@ -123,10 +125,10 @@ Widget buildMessage(MessageModel model) => Align(
 Widget buildMyMessage(MessageModel model) => Align(
       alignment: AlignmentDirectional.centerEnd,
       child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
               color: Colors.blue[200],
-              borderRadius: BorderRadiusDirectional.only(
+              borderRadius: const BorderRadiusDirectional.only(
                   topEnd: Radius.circular(10),
                   topStart: Radius.circular(10),
                   bottomStart: Radius.circular(10))),

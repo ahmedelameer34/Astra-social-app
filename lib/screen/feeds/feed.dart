@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/models/post_model.dart';
@@ -7,10 +9,11 @@ import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
 
 import 'package:flutter_application_222/shared/components/function.dart';
 import 'package:flutter_application_222/shared/icons_broken.dart';
+import 'package:flutter_application_222/shared/style/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FeedsScreen extends StatelessWidget {
-  FeedsScreen({super.key});
+class FeedScreen extends StatelessWidget {
+  FeedScreen({super.key});
   var commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -20,10 +23,10 @@ class FeedsScreen extends StatelessWidget {
       var cubit = HomeCubit.get(context);
 
       return SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 60,
               child: Card(
                 elevation: 4,
@@ -48,7 +51,7 @@ class FeedsScreen extends StatelessWidget {
                           elevation: 1,
                           child: InkWell(
                               onTap: () {
-                                navigateTo(context, AddPostScreen());
+                                navigateTo(context, const AddPostScreen());
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
@@ -63,9 +66,9 @@ class FeedsScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10),
                       child: IconButton(
                           onPressed: () {
-                            navigateTo(context, AddPostScreen());
+                            navigateTo(context, const AddPostScreen());
                           },
-                          icon: Icon(Icons.image)),
+                          icon: const Icon(Icons.image)),
                     )
                   ],
                 ),
@@ -73,21 +76,21 @@ class FeedsScreen extends StatelessWidget {
             ),
             ConditionalBuilder(
                 fallback: (context) {
-                  return Center(
+                  return const Center(
                     child: Text('no new post to see'),
                   );
                 },
                 condition: cubit.posts.isNotEmpty,
                 builder: (context) {
                   return ListView.separated(
-                    separatorBuilder: (context, index) => SizedBox(
+                    separatorBuilder: (context, index) => const SizedBox(
                       height: 10,
                     ),
                     itemBuilder: (context, index) =>
                         buildPostItem(context, cubit.posts[index], index),
                     itemCount: cubit.posts.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                   );
                 })
           ],
@@ -98,6 +101,7 @@ class FeedsScreen extends StatelessWidget {
 
   Widget buildPostItem(context, PostModel model, int index) {
     return Card(
+      color: darkScaffoldColor,
       margin: const EdgeInsets.all(8),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
@@ -110,7 +114,7 @@ class FeedsScreen extends StatelessWidget {
                 radius: 25,
                 backgroundImage: NetworkImage(model.profileImage),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Expanded(
@@ -129,10 +133,10 @@ class FeedsScreen extends StatelessWidget {
                                       height: 1.4,
                                       overflow: TextOverflow.ellipsis)),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
-                        Icon(
+                        const Icon(
                           Icons.check_circle,
                           color: Colors.blue,
                           size: 16,
@@ -147,22 +151,22 @@ class FeedsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.more_horiz,
                     size: 20,
                   ))
             ],
           ),
-          Divider(
+          const Divider(
             thickness: 1,
           ),
           Text(
-            '${model.postText}',
+            model.postText,
             maxLines: 5,
             style: Theme.of(context)
                 .textTheme
@@ -170,14 +174,14 @@ class FeedsScreen extends StatelessWidget {
                 .copyWith(overflow: TextOverflow.ellipsis),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 5, bottom: 10),
-            child: Container(
+            padding: const EdgeInsets.only(top: 5, bottom: 10),
+            child: SizedBox(
               width: double.infinity,
               child: Wrap(
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.only(end: 6),
-                    child: Container(
+                    padding: const EdgeInsetsDirectional.only(end: 6),
+                    child: SizedBox(
                       height: 20,
                       child: MaterialButton(
                         minWidth: 1,
@@ -203,7 +207,7 @@ class FeedsScreen extends StatelessWidget {
                 height: 140,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage('${model.postImage}'),
+                    image: NetworkImage(model.postImage),
                     fit: BoxFit.cover,
                   ),
                 )),
@@ -216,11 +220,11 @@ class FeedsScreen extends StatelessWidget {
                     onTap: () {},
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.favorite_border,
                           color: Colors.red,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         Text(
@@ -237,11 +241,11 @@ class FeedsScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(
+                        const Icon(
                           IconBroken.Chat,
                           color: Colors.cyan,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         Text(
@@ -255,12 +259,12 @@ class FeedsScreen extends StatelessWidget {
               ],
             ),
           ),
-          Divider(thickness: 1),
+          const Divider(thickness: 1),
           Row(
             children: [
               Expanded(
                 child: Card(
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
                     child: Row(
                       children: [
@@ -269,7 +273,7 @@ class FeedsScreen extends StatelessWidget {
                           backgroundImage: NetworkImage(
                               HomeCubit.get(context).model.profileImage),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Expanded(
@@ -289,7 +293,7 @@ class FeedsScreen extends StatelessWidget {
                           controller: commentController,
                           decoration: InputDecoration(
                               suffixIcon: IconButton(
-                                icon: Icon(Icons.add),
+                                icon: const Icon(Icons.add),
                                 onPressed: () {
                                   if (commentController.value.text != '') {
                                     HomeCubit.get(context).addComment(
@@ -319,11 +323,11 @@ class FeedsScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.share_outlined,
                     color: Colors.green,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
@@ -332,7 +336,7 @@ class FeedsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               InkWell(
                 onTap: () {
                   HomeCubit.get(context)
@@ -341,11 +345,11 @@ class FeedsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.favorite_border,
                       color: Colors.red,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(

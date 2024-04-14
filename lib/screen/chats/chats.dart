@@ -17,17 +17,17 @@ class ChatsScreen extends StatelessWidget {
         return ConditionalBuilder(
           builder: (BuildContext context) {
             return ListView.separated(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) =>
                     buildChatItem(context, HomeCubit.get(context).users[index]),
-                separatorBuilder: (context, index) => Divider(
+                separatorBuilder: (context, index) => const Divider(
                       thickness: 1,
                     ),
                 itemCount: HomeCubit.get(context).users.length);
           },
           condition: HomeCubit.get(context).users.isNotEmpty,
           fallback: (BuildContext context) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           },
         );
       },
@@ -50,19 +50,17 @@ class ChatsScreen extends StatelessWidget {
               radius: 25,
               backgroundImage: NetworkImage(model.profileImage),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
-            Container(
+            SizedBox(
               width: 250,
-              child: Expanded(
-                child: Text(model.name,
-                    maxLines: 1,
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          height: 1.4,
-                          overflow: TextOverflow.ellipsis,
-                        )),
-              ),
+              child: Text(model.name,
+                  maxLines: 1,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        height: 1.4,
+                        overflow: TextOverflow.ellipsis,
+                      )),
             ),
           ]),
         ),

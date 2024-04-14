@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/home_cubit.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
@@ -20,23 +21,32 @@ class HomeScreen extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.notifications,
                     color: mainColor,
                   )),
               IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.search_sharp, color: mainColor))
+                  icon: const Icon(Icons.search_sharp, color: mainColor))
             ],
             title: Text(cubit.titles[cubit.currentIndex]),
           ),
-          body: cubit.screens[cubit.currentIndex],
+          body: ConditionalBuilder(
+              condition: cubit.model.uId != '',
+              fallback: (context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              builder: (context) {
+                return cubit.screens[cubit.currentIndex];
+              }),
           bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.currentIndex,
               onTap: (index) {
                 cubit.changeBottomNav(index);
               },
-              items: [
+              items: const [
                 BottomNavigationBarItem(
                     icon: Icon(
                       Icons.home_sharp,

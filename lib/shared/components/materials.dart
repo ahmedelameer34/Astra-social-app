@@ -106,13 +106,12 @@ Widget defaultTextButton(
         required String text,
         double? fontSize,
         Color? textColor}) =>
-    Container(
-        child: TextButton(
-            onPressed: onPressed,
-            child: Text(
-              text,
-              style: TextStyle(color: textColor, fontSize: fontSize),
-            )));
+    TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(color: textColor, fontSize: fontSize),
+        ));
 
 Future<bool?> showToast({required String msg, required toastState state}) {
   return Fluttertoast.showToast(

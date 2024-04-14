@@ -8,7 +8,7 @@ import 'package:flutter_application_222/models/message_model.dart';
 import 'package:flutter_application_222/models/post_model.dart';
 
 import 'package:flutter_application_222/screen/chats/chats.dart';
-import 'package:flutter_application_222/screen/feeds/feeds.dart';
+import 'package:flutter_application_222/screen/feeds/feed.dart';
 import 'package:flutter_application_222/screen/home/home_cubit/states.dart';
 import 'package:flutter_application_222/screen/settings/settings.dart';
 import 'package:flutter_application_222/screen/users/users.dart';
@@ -46,14 +46,14 @@ class HomeCubit extends Cubit<HomeStates> {
     'Settings'
   ];
   List<Widget> screens = [
-    FeedsScreen(),
+    FeedScreen(),
     const ChatsScreen(),
     const ProfileScreen(),
     const UsersScreen(),
     const SettingsScreen()
   ];
   void changeBottomNav(int index) {
-    if (index == 1) getAlluser();
+    getAlluser();
 
     currentIndex = index;
     emit(ChangeBottomNavState());
@@ -293,8 +293,8 @@ class HomeCubit extends Cubit<HomeStates> {
     return number;
   }
 
-  likePost(String postId) {
-    FirebaseFirestore.instance
+  likePost(String postId) async {
+    await FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('likes')
@@ -347,10 +347,10 @@ class HomeCubit extends Cubit<HomeStates> {
         .listen((event) {
       comments = [];
       commentId = [];
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         comments.add(CommentModel.fromJson(element.data()));
         commentId.add(element.id);
-      });
+      }
       emit(GetCommentsSuccessState());
     });
     print("comments.length is ${comments.length}");
@@ -377,7 +377,7 @@ class HomeCubit extends Cubit<HomeStates> {
   List<UserModel> users = [];
   void getAlluser() {
     emit(GetAllUsresLoadingState());
-    if (users.isEmpty)
+    if (users.isEmpty) {
       FirebaseFirestore.instance.collection('users').get().then((value) {
         for (var element in value.docs) {
           if (element.data()['uId'] != model.uId)
@@ -388,6 +388,7 @@ class HomeCubit extends Cubit<HomeStates> {
       }).catchError((error) {
         emit(GetAllUsresErrorState(error.toString()));
       });
+    }
   }
 
 // Send and get messages
@@ -440,10 +441,10 @@ class HomeCubit extends Cubit<HomeStates> {
         .snapshots()
         .listen((event) {
       messages = [];
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         messages.add(MessageModel.fromJson(element.data()));
         emit(GetMessageSuccessState());
-      });
+      }
     });
   }
 }

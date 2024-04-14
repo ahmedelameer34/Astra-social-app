@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {
         if (state is HomeGetUserLoadingState) {
-          Center(
+          const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
-              Container(
+              SizedBox(
                 height: 180,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
@@ -37,13 +37,13 @@ class ProfileScreen extends StatelessWidget {
                       child: Container(
                         height: 140,
                         width: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(4),
                                 topRight: Radius.circular(4))),
                         child: Image(
                             fit: BoxFit.cover,
-                            image: NetworkImage('${userModel.profileCover}')),
+                            image: NetworkImage(userModel.profileCover)),
                       ),
                     ),
                     CircleAvatar(
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -69,19 +69,21 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text(userModel.name,
-                          maxLines: 1,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  height: 1.4,
-                                  overflow: TextOverflow.ellipsis)),
+                      child: Center(
+                        child: Text(userModel.name,
+                            maxLines: 1,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    height: 1.4,
+                                    overflow: TextOverflow.ellipsis)),
+                      ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.check_circle,
                       color: Colors.blue,
                       size: 16,
@@ -172,7 +174,7 @@ class ProfileScreen extends StatelessWidget {
                   Expanded(
                       child: defaultButton(
                           onPressed: () {
-                            navigateTo(context, AddPostScreen());
+                            navigateTo(context, const AddPostScreen());
                           },
                           text: 'Add Post',
                           color: Colors.white)),
@@ -183,9 +185,9 @@ class ProfileScreen extends StatelessWidget {
                       child: IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            navigateTo(context, EditProfileScreen());
+                            navigateTo(context, const EditProfileScreen());
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.edit,
                             color: Colors.white,
                           )))

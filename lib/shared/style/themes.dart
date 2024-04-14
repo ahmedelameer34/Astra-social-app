@@ -5,7 +5,7 @@ import 'colors.dart';
 
 ThemeData light = ThemeData(
   indicatorColor: mainColor,
-  dividerColor: Color.fromARGB(255, 216, 213, 213),
+  dividerColor: const Color.fromARGB(255, 216, 213, 213),
   cardColor: Colors.white,
   iconTheme: const IconThemeData(color: mainColor),
   textTheme: const TextTheme(

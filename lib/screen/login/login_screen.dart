@@ -4,7 +4,6 @@ import 'package:flutter_application_222/helper/cashe_helper.dart';
 import 'package:flutter_application_222/screen/home/home_screen.dart';
 import 'package:flutter_application_222/shared/components/function.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../shared/components/materials.dart';
 import '../../shared/style/colors.dart';
@@ -39,8 +38,8 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Image.asset('assets/image/Ellipse 1,5.png',
                                 width: 200, height: 150),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 'ASTRA',
                                 style:
@@ -53,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                           'Welcome back ,',
                           style: TextStyle(color: mainColor, fontSize: 25),
                         ),
-                        Text(
+                        const Text(
                           'Login to continue',
                           style: TextStyle(color: mainColor, fontSize: 25),
                         ),
@@ -95,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                           prefix: Icons.lock_outline,
                           suffix: LoginCubit.get(context).suffix,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Column(
@@ -113,12 +112,12 @@ class LoginScreen extends StatelessWidget {
                                   }),
                                   text: 'LOG IN',
                                   color: Colors.white),
-                              fallback: (BuildContext context) => Center(
+                              fallback: (BuildContext context) => const Center(
                                 child: CircularProgressIndicator(),
                               ),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             register(
@@ -141,7 +140,7 @@ class LoginScreen extends StatelessWidget {
           }
           if (state is LoginSuccessState) {
             CasheHelper.saveData(key: 'uId', value: state.uId!);
-            navigateAndFinish(context, HomeScreen());
+            navigateAndFinish(context, const HomeScreen());
           }
         },
       ),

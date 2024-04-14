@@ -27,7 +27,7 @@ void main() async {
   uId = CasheHelper.getString(key: 'uId');
 
   if (uId != null) {
-    widget = HomeScreen();
+    widget = const HomeScreen();
   } else {
     widget = LoginScreen();
   }

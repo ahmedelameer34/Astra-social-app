@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_222/screen/register/register_cubit/states.dart';
+import 'package:flutter_application_222/shared/constant/constant.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_application_222/models/user_model.dart';
@@ -32,6 +33,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
         email: emailAddress,
         password: password,
       );
+      uId = FirebaseAuth.instance.currentUser!.uid;
       userCreate(
           name: name,
           uId: FirebaseAuth.instance.currentUser!.uid,

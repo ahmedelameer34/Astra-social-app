@@ -5,6 +5,6 @@ class UsersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('UsersScreen');
+    return const Text('UsersScreen');
   }
 }

@@ -17,7 +17,7 @@ class EditProfileScreen extends StatelessWidget {
 
     return BlocConsumer<HomeCubit, HomeStates>(listener: (context, state) {
       if (state is HomeGetUserLoadingState) {
-        Center(
+        const Center(
           child: CircularProgressIndicator(),
         );
       }
@@ -31,7 +31,7 @@ class EditProfileScreen extends StatelessWidget {
 
       return Scaffold(
           appBar: AppBar(
-            title: Text('Edit Profile'),
+            title: const Text('Edit Profile'),
             actions: [
               defaultTextButton(
                   onPressed: () {
@@ -51,7 +51,7 @@ class EditProfileScreen extends StatelessWidget {
                 const LinearProgressIndicator(
                   color: mainColor,
                 ),
-              Container(
+              SizedBox(
                 height: 180,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
@@ -64,21 +64,21 @@ class EditProfileScreen extends StatelessWidget {
                           Container(
                             height: 140,
                             width: double.infinity,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(4),
                                     topRight: Radius.circular(4))),
                             child: Image(
                                 fit: BoxFit.cover,
                                 image: coverImage == null
-                                    ? NetworkImage('${userModel.profileCover}')
+                                    ? NetworkImage(userModel.profileCover)
                                     : FileImage(coverImage) as ImageProvider),
                           ),
                           IconButton(
                               onPressed: () {
                                 HomeCubit.get(context).setCoverImage();
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.camera_alt_rounded,
                                 size: 26,
                               ))
@@ -104,7 +104,7 @@ class EditProfileScreen extends StatelessWidget {
                             onPressed: () {
                               HomeCubit.get(context).setProfileImage();
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.camera_alt_rounded,
                               size: 28,
                             ))
@@ -113,7 +113,7 @@ class EditProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               if (HomeCubit.get(context).profileImage != null ||
@@ -134,13 +134,13 @@ class EditProfileScreen extends StatelessWidget {
                                 text: 'Upload Profile',
                                 color: Colors.white),
                             if (state is UploadPofileImageLoadingState)
-                              LinearProgressIndicator(
+                              const LinearProgressIndicator(
                                 color: mainColor,
                               )
                           ],
                         ),
                       ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     if (HomeCubit.get(context).coverImage != null)
@@ -157,7 +157,7 @@ class EditProfileScreen extends StatelessWidget {
                                 text: 'Upload Cover',
                                 color: Colors.white),
                             if (state is UploadCoverImageLoadingState)
-                              LinearProgressIndicator(
+                              const LinearProgressIndicator(
                                 color: mainColor,
                               )
                           ],
@@ -167,7 +167,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
               if (HomeCubit.get(context).profileImage != null ||
                   HomeCubit.get(context).coverImage != null)
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               defTextFormField(
@@ -177,10 +177,11 @@ class EditProfileScreen extends StatelessWidget {
                     if (name.isEmpty) {
                       return "Name must not be empty";
                     }
+                    return null;
                   },
                   label: 'Edit your name',
                   prefix: Icons.person_outlined),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               defTextFormField(
@@ -190,6 +191,7 @@ class EditProfileScreen extends StatelessWidget {
                     if (bio.isEmpty) {
                       return "bio must not be empty";
                     }
+                    return null;
                   },
                   label: 'Edit your bio',
                   prefix: Icons.info),
@@ -200,10 +202,11 @@ class EditProfileScreen extends StatelessWidget {
                     if (name.isEmpty) {
                       return "phone must not be empty";
                     }
+                    return null;
                   },
                   label: 'Edit your Phone number',
                   prefix: Icons.phone_android),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
             ]),
